@@ -16,6 +16,14 @@
 public class Main {
     public static void main(String[] args) {
         TicTacToe ticTacToe = new TicTacToe();
-        ticTacToe.display();
+
+        while (true) {
+            ticTacToe.playTurn();
+
+            if (ticTacToe.isGameOver()) {
+                break;
+            }
+        }
+        System.out.println("Fin du Jeu !");
     }
 }
