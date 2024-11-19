@@ -12,4 +12,8 @@ public class Cell {
     public boolean isEmpty() {
         return owner == null;
     }
+
+    public Player getOwner() {
+        return owner;
+    }
 }
