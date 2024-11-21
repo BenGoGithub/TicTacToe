@@ -1,20 +1,22 @@
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+import Player.Player;
+
 
 public class TicTacToe {
     private static final int SIZE = 3;
     private final Cell[][] board;
     private Player currentPlayer;
-    private Player player1;
-    private Player player2;
-    private final Scanner scanner;
+    private final Player player1;
+    private final Player player2;
 
-    public TicTacToe() {
-        board = new Cell[SIZE][SIZE];
+    public TicTacToe(Player player1, Player player2) {
+        this.board = new Cell[SIZE][SIZE];
         initializeBoard();
-        player1 = new Player(" X ");
-        player2 = new Player(" O ");
-        currentPlayer = player1;
-        scanner = new Scanner(System.in);
+        this.player1 = player1;
+        this.player2 = player2;
+        this.currentPlayer = player1;
     }
 
     private void displayGameTitle() {
@@ -31,7 +33,7 @@ public class TicTacToe {
         System.out.println(CYAN + BOLD + "*         " + BLUE + "Version 1.0" + CYAN + "          *" + RESET);
         System.out.println(CYAN + BOLD + "*                              *" + RESET);
         System.out.println(CYAN + BOLD + "********************************" + RESET);
-        System.out.println(YELLOW + "Joueur 1: X  |  Joueur 2: O" + RESET);
+        System.out.println(YELLOW + "Joueur 1: " + player1.getSymbol() + "  |  Joueur 2: " + player2.getSymbol() + RESET);
         System.out.println(BLUE + "Entrez les coordonnées (1-3) pour jouer" + RESET);
         System.out.println();
     }
@@ -55,73 +57,48 @@ public class TicTacToe {
 
         if (isWinner()) {
             switchPlayer(); // Revenir au joueur gagnant
-            System.out.println("Le joueur " + currentPlayer.getRepresentation() + " a gagné !");
+            System.out.println("Le joueur " + currentPlayer.getSymbol() + " a gagné !");
         } else {
             System.out.println("Match nul !");
         }
     }
 
-    private void playTurn() {
+    public void playTurn() {
         display();
-        System.out.println("C'est au tour du joueur " + currentPlayer.getRepresentation());
-        int[] move = getMoveFromPlayer();
+        System.out.println("C'est au tour du joueur " + currentPlayer.getSymbol());
+        int[] move;
+        do {
+            move = currentPlayer.makeMove(getBoardAsCharArray());
+            if (isInvalidMove(move[0], move[1])) {
+                System.out.println("Mouvement invalide. Réessayez.");
+            }
+        } while (isInvalidMove(move[0], move[1]));
+
         setOwner(move[0], move[1], currentPlayer);
         switchPlayer();
     }
-    // Affiche le plateau de jeu
+
     private void display() {
         System.out.println("-------------");
         for (Cell[] row : board) {
-            displayRow(row);
+            System.out.println("|" + Arrays.stream(row)
+                    .map(Cell::getRepresentation)
+                    .reduce((a, b) -> a + "|" + b)
+                    .orElse("") + "|");
             System.out.println("-------------");
         }
     }
-    // Affiche une ligne du plateau
-    private void displayRow(Cell[] row) {
-        System.out.print("|");
-        for (Cell cell : row) {
-            System.out.print(cell.getRepresentation() + "|");
-        }
-        System.out.println();
-    }
 
-    private int[] getMoveFromPlayer() {
-        int[] move = new int[2]; //Tableau de
-        boolean validMove = false;
-
-        while (!validMove) {
-            System.out.println("Entrez le numéro de ligne (1 à 3) et la colonne (1 à 3) séparés par un espace :");
-            try {
-                move[0] = scanner.nextInt() - 1;
-                move[1] = scanner.nextInt() - 1;
-
-                if (isValidMove(move[0], move[1])) {
-                    validMove = true;
-                } else {
-                    System.out.println("Mouvement invalide. Réessayez.");
-                }
-            } catch (Exception e) {
-                System.out.println("Entrée invalide. Veuillez entrer deux nombres entiers.");
-                scanner.nextLine();
-            }
-        }
-        return move;
-    }
-
-    private boolean isValidMove(int row, int col) {
-        return row >= 0 && row < SIZE && col >= 0 && col < SIZE && board[row][col].isEmpty();
+    public boolean isInvalidMove(int row, int col) {
+        return row < 0 || row >= SIZE || col < 0 || col >= SIZE || !board[row][col].isEmpty();
     }
 
     private void setOwner(int row, int col, Player player) {
-        if (isValidMove(row, col)) {
-            board[row][col].setOwner(player);
-        } else {
-            throw new IllegalArgumentException("Mouvement invalide");
-        }
+        board[row][col].setOwner(player);
     }
 
     private void switchPlayer() {
-        currentPlayer = (currentPlayer == player1) ? player2 : player1; // Condition vrai ? faux :
+        currentPlayer = (currentPlayer == player1) ? player2 : player1;
     }
 
     private boolean isGameOver() {
@@ -129,34 +106,28 @@ public class TicTacToe {
     }
 
     private boolean isWinner() {
-        for (int i = 0; i < SIZE; i++) {
-            if (checkLine(i, 0, 0, 1) || checkLine(0, i, 1, 0)) {
-                return true;
-            }
-        }
-        return checkLine(0, 0, 1, 1) || checkLine(0, SIZE - 1, 1, -1);
+        return IntStream.range(0, SIZE).anyMatch(i -> checkLine(i, 0, 0, 1) || checkLine(0, i, 1, 0))
+                || checkLine(0, 0, 1, 1) || checkLine(0, SIZE - 1, 1, -1);
     }
 
     private boolean checkLine(int startRow, int startCol, int rowInc, int colInc) {
         Player firstPlayer = board[startRow][startCol].getOwner();
-        if (firstPlayer == null) return false;
-
-        for (int i = 1; i < SIZE; i++) {
-            if (board[startRow + i * rowInc][startCol + i * colInc].getOwner() != firstPlayer) {
-                return false;
-            }
-        }
-        return true;
+        return firstPlayer != null && IntStream.range(1, SIZE)
+                .allMatch(i -> board[startRow + i * rowInc][startCol + i * colInc].getOwner() == firstPlayer);
     }
 
     private boolean isBoardFull() {
-        for (Cell[] row : board) {
-            for (Cell cell : row) {
-                if (cell.isEmpty()) {
-                    return false;
-                }
+        return Arrays.stream(board).flatMap(Arrays::stream).noneMatch(Cell::isEmpty);
+    }
+
+    public char[][] getBoardAsCharArray() {
+        char[][] charBoard = new char[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                Player owner = board[i][j].getOwner();
+                charBoard[i][j] = owner == null ? ' ' : owner.getSymbol().charAt(0);
             }
         }
-        return true;
+        return charBoard;
     }
 }
