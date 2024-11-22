@@ -21,6 +21,13 @@ public class InteractionUtilisateur {
         return scanner.next().toLowerCase().startsWith("o");
     }
 
+    public int demanderChoixJeu() {
+        System.out.println("Choisissez un jeu :");
+        System.out.println("1. Tic-Tac-Toe");
+        System.out.println("2. Puissance 4");
+        return scanner.nextInt();
+    }
+
     public int demanderTypeJoueur(int numeroJoueur) {
         System.out.println("Choisissez le type de joueur " + numeroJoueur + " (1: Humain, 2: IA) : ");
         return scanner.nextInt();

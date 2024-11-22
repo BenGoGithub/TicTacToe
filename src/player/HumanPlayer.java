@@ -1,5 +1,6 @@
 package player;
 
+import model.Plateau;
 import ui.InteractionUtilisateur;
 import model.Player;
 import model.State;
@@ -20,7 +21,7 @@ public class HumanPlayer implements Player {
     }
 
     @Override
-    public int[] makeMove(State[][] board) {
+    public int[] makeMove(Plateau plateau) {
         return interactionUtilisateur.demanderCoordonnees(state.getValue());
     }
 }

@@ -1,4 +1,6 @@
-import game.TicTacToe;
+import game.Jeu;
+import game.Puissance4Jeu;
+import game.TicTacToeJeu;
 import model.Player;
 import model.State;
 import player.ArtificialPlayer;
@@ -7,26 +9,34 @@ import ui.InteractionUtilisateur;
 import ui.View;
 
 
-public static void main(String[] args) {
-    jouerTicTacToe();
-}
+public class Main {
+    public static void main(String[] args) {
+        InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
+        View view = new View();
 
-private static void jouerTicTacToe() {
-    InteractionUtilisateur interactionUtilisateur = new InteractionUtilisateur();
-    View view = new View();
+        do {
+            Jeu jeuChoisi = choisirJeu(interactionUtilisateur, view);
+            jeuChoisi.jouer();
+        } while (interactionUtilisateur.demanderRejouer());
 
-    do {
+        interactionUtilisateur.fermer();
+    }
+
+    private static Jeu choisirJeu(InteractionUtilisateur interactionUtilisateur, View view) {
+        int choix = interactionUtilisateur.demanderChoixJeu();
+
         Player joueur1 = creerJoueur(State.X, interactionUtilisateur, 1);
         Player joueur2 = creerJoueur(State.O, interactionUtilisateur, 2);
 
-        TicTacToe partie = new TicTacToe(joueur1, joueur2, view);
-        partie.jouer();
-    } while (interactionUtilisateur.demanderRejouer());
+        if (choix == 1) {
+            return new TicTacToeJeu(joueur1, joueur2, view);
+        } else {
+            return new Puissance4Jeu(joueur1, joueur2, view);
+        }
+    }
 
-    interactionUtilisateur.fermer();
-}
-
-private static Player creerJoueur(State state, InteractionUtilisateur interactionUtilisateur, int numeroJoueur) {
-    int typeJoueur = interactionUtilisateur.demanderTypeJoueur(numeroJoueur);
-    return (typeJoueur == 1) ? new HumanPlayer(state, interactionUtilisateur) : new ArtificialPlayer(state);
+    private static Player creerJoueur(State state, InteractionUtilisateur interactionUtilisateur, int numeroJoueur) {
+        int typeJoueur = interactionUtilisateur.demanderTypeJoueur(numeroJoueur);
+        return (typeJoueur == 1) ? new HumanPlayer(state, interactionUtilisateur) : new ArtificialPlayer(state);
+    }
 }

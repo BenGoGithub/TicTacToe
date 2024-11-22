@@ -1,5 +1,6 @@
 package player;
 
+import model.Plateau;
 import model.Player;
 import model.State;
 
@@ -20,12 +21,11 @@ public class ArtificialPlayer implements Player {
     }
 
     @Override
-    public int[] makeMove(State[][] board) {
-        int row, col;
+    public int[] makeMove(Plateau plateau) {
+        int colonne;
         do {
-            row = random.nextInt(3);
-            col = random.nextInt(3);
-        } while (board[row][col] != State.EMPTY);
-        return new int[]{row, col};
+            colonne = random.nextInt(plateau.getColonnes());
+        } while (!plateau.estColonneValide(colonne));
+        return new int[]{0, colonne}; // La ligne est déterminée par le plateau
     }
 }

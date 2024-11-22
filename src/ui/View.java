@@ -1,23 +1,17 @@
 package ui;
 
-import model.State;
+import model.Plateau;
+
 
 public class View {
-    public void afficherTitre() {
-        System.out.println("=== TIC-TAC-TOE ===");
-        System.out.println("Joueur 1: X | Joueur 2: O");
-        System.out.println("Entrez les coordonnées (1-3) pour jouer");
-    }
-
-    public void afficherPlateau(State[][] plateau) {
-        System.out.println("-------------------");
-        for (State[] ligne : plateau) {
-            System.out.print("| ");
-            for (State cellule : ligne) {
-                System.out.print(cellule.getValue() + " | ");
+    public void afficherPlateau(Plateau plateau) {
+        for (int i = 0; i < plateau.getLignes(); i++) {
+            for (int j = 0; j < plateau.getColonnes(); j++) {
+                System.out.print("|" + plateau.getEtat(i, j).getValue());
             }
-            System.out.println("\n-------------------");
+            System.out.println("|");
         }
+        System.out.println("-".repeat(plateau.getColonnes() * 2 + 1));
     }
 
     public void afficherTourJoueur(String joueur) {
@@ -25,7 +19,7 @@ public class View {
     }
 
     public void afficherCoupInvalide() {
-        System.out.println("Mouvement invalide. Réessayez.");
+        System.out.println("Coup invalide. Réessayez.");
     }
 
     public void afficherVictoire(String joueur) {
