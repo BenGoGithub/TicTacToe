@@ -3,7 +3,7 @@ package ui;
 import java.util.Scanner;
 
 public class InteractionUtilisateur {
-    private final Scanner scanner;
+    public final Scanner scanner;
 
     public InteractionUtilisateur() {
         this.scanner = new Scanner(System.in);
