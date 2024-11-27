@@ -1,6 +1,7 @@
 package model;
 
 public interface Player {
-    State getState();
-    int[] makeMove(State[][] board);
+    State getSymbole();
+    String getNom();
+    int[] makeMove(Plateau plateau);
 }
