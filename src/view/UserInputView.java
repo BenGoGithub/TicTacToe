@@ -11,7 +11,7 @@ public class UserInputView {
     }
 
     public String getGameType() {
-        System.out.println("Choisissez un jeu (TicTacToe/ConnectFour/Gomoku): ");
+        System.out.println("Choisissez un jeu TicTacToe/ConnectFour/Gomoku): ");
         return scanner.nextLine();
     }
 

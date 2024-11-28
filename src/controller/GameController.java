@@ -48,4 +48,8 @@ public abstract class GameController {
     public Board getBoard() {
         return board;
     }
+
+    public GameView getView() {
+        return this.view;
+    }
 }

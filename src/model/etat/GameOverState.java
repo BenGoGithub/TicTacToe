@@ -13,7 +13,7 @@ public class GameOverState implements GameState {
     @Override
     public void makeMove(GameController controller) {
         if (winner != null) {
-            System.out.println("Le jeu est terminé. " + winner.getName() + " a gagné !");
+            System.out.println(STR."Le jeu est terminé. \{winner.getName()} a gagné !");
         } else {
             System.out.println("Le jeu est terminé. C'est un match nul !");
         }

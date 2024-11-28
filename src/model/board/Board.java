@@ -35,4 +35,15 @@ public abstract class Board {
 
     public Cell getCell(int x, int y) { return cells[x][y]; }
     public int getSize() { return size; }
+
+    public String getBoardRepresentation() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                sb.append(cells[i][j].getState()).append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }

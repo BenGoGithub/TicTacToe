@@ -5,7 +5,7 @@ import controller.GameController;
 public class InitialState implements GameState {
     @Override
     public void makeMove(GameController controller) {
-        System.out.println("Le jeu commence. C'est au tour du premier joueur.");
+        controller.getView().displayGameStart(controller.getCurrentPlayer());
         controller.changeState(new Player1TurnState());
     }
 

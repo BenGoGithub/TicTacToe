@@ -20,13 +20,13 @@ public class Main {
 
         GameController controller;
         switch (gameType.toLowerCase()) {
-            case "tictactoe":
+            case "t":
                 controller = new TicTacToeController(players);
                 break;
-            case "connectfour":
+            case "c":
                 controller = new ConnectFourController(players);
                 break;
-            case "gomoku":
+            case "g":
                 controller = new GomokuController(players);
                 break;
             default:
