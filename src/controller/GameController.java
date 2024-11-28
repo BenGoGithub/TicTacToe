@@ -1,63 +1,51 @@
 package controller;
 
-import model.GameModel;
-import model.HumanPlayer;
-import model.Player;
+
+import model.board.Board;
+import model.etat.*;
+import model.player.Player;
 import view.GameView;
 import view.UserInputView;
 
-public class GameController {
-    private final GameModel model;
-    private final GameView view;
-    private final UserInputView inputView;
+public abstract class GameController {
+    protected Board board;
+    protected Player[] players;
+    protected GameView view;
+    protected UserInputView inputView;
+    protected int currentPlayerIndex;
+    protected GameState currentState;
 
-    public GameController(GameModel model, GameView view, UserInputView inputView) {
-        this.model = model;
-        this.view = view;
-        this.inputView = inputView;
+    public GameController(Board board, Player[] players) {
+        this.board = board;
+        this.players = players;
+        this.view = new GameView();
+        this.inputView = new UserInputView();
+        this.currentPlayerIndex = 0;
+        this.currentState = new InitialState();
     }
 
-    public void jouer() {
-        do {
-            partieUnique();
-        } while (inputView.demanderRejouer());
-    }
-
-    private void partieUnique() {
-        view.afficherPlateau(model.getPlateau());
-        while (!model.estPartieTerminee()) {
-            jouerTour();
-            view.afficherPlateau(model.getPlateau());
-            if (!model.estPartieTerminee()) {
-                model.changerJoueur();
-            }
+    public void play() {
+        while (!(currentState instanceof GameOverState)) {
+            view.displayBoard(board);
+            currentState.makeMove(this);
         }
-        gererFinPartie();
+        view.displayBoard(board);
+        currentState.makeMove(this);
     }
 
-    private void jouerTour() {
-        Player joueurActuel = model.getJoueurActuel();
-        view.afficherTourJoueur(joueurActuel.getNom());
-
-        int[] coordonnees;
-        boolean coupValide = false;
-        while (!coupValide) {
-            if (joueurActuel instanceof HumanPlayer) {
-                coordonnees = inputView.demanderCoordonnees();
-            } else {
-                coordonnees = joueurActuel.makeMove(model.getPlateau());
-            }
-            coupValide = model.placerJeton(coordonnees[0], coordonnees[1]);
-            if (!coupValide) view.afficherCoupInvalide();
-        }
+    public void switchPlayer() {
+        currentPlayerIndex = 1 - currentPlayerIndex;
     }
 
+    public void changeState(GameState newState) {
+        this.currentState = newState;
+    }
 
-    private void gererFinPartie() {
-        if (model.estVictoire()) {
-            view.afficherVictoire(model.getGagnant().getNom());
-        } else if (model.estMatchNul()) {
-            view.afficherMatchNul();
-        }
+    public Player getCurrentPlayer() {
+        return players[currentPlayerIndex];
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

@@ -1,34 +1,16 @@
 package view;
 
-import model.Plateau;
-import model.State;
+import model.board.Board;
+
 
 public class GameView {
-    public void afficherPlateau(Plateau plateau) {
-        System.out.println("-------------");
-        for (int i = 0; i < plateau.getTaille(); i++) {
-            System.out.print("| ");
-            for (int j = 0; j < plateau.getTaille(); j++) {
-                System.out.print(plateau.getEtat(i, j) == State.EMPTY ? " " : plateau.getEtat(i, j));
-                System.out.print(" | ");
+    public void displayBoard(Board board) {
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
+                System.out.print(board.getCell(i, j).getState() + " ");
             }
-            System.out.println("\n-------------");
+            System.out.println();
         }
-    }
-
-    public void afficherTourJoueur(String joueur) {
-        System.out.println("C'est le tour de " + joueur);
-    }
-
-    public void afficherVictoire(String joueur) {
-        System.out.println(joueur + " a gagné !");
-    }
-
-    public void afficherMatchNul() {
-        System.out.println("Match nul !");
-    }
-
-    public void afficherCoupInvalide() {
-        System.out.println("Coup invalide. Essayez encore.");
+        System.out.println();
     }
 }
