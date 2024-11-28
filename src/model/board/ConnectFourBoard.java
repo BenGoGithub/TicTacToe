@@ -3,7 +3,7 @@ package model.board;
 import model.etat.State;
 
 public class ConnectFourBoard extends Board {
-    public ConnectFourBoard() { super(6); } // 6 rows, 7 columns typically
+    public ConnectFourBoard() { super(6); }
 
     @Override
     public boolean placeToken(int column, int y, State state) {

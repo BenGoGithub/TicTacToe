@@ -4,14 +4,14 @@ import java.util.Scanner;
 
 
 public class UserInputView {
-    private final Scanner scanner;
+    private Scanner scanner;
 
     public UserInputView() {
         scanner = new Scanner(System.in);
     }
 
     public String getGameType() {
-        System.out.println("Choisissez un jeu TicTacToe/ConnectFour/Gomoku): ");
+        System.out.println("Choisissez un jeu (TicTacToe/ConnectFour/Gomoku): ");
         return scanner.nextLine();
     }
 

@@ -6,7 +6,6 @@ import model.etat.*;
 import model.player.Player;
 import view.GameView;
 import view.UserInputView;
-
 public abstract class GameController {
     protected Board board;
     protected Player[] players;
@@ -50,6 +49,6 @@ public abstract class GameController {
     }
 
     public GameView getView() {
-        return this.view;
+        return view;
     }
 }

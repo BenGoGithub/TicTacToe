@@ -2,7 +2,6 @@ package model.board;
 
 import model.Cell;
 import model.etat.State;
-
 public abstract class Board {
     protected Cell[][] cells;
     protected int size;

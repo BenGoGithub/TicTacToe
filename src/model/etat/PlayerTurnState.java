@@ -19,7 +19,7 @@ public abstract class PlayerTurnState implements GameState {
                 nextTurn(controller);
             }
         } else {
-            System.out.println("Coup invalide ! Réessayez.");
+            controller.getView().displayInvalidMove();
         }
     }
 

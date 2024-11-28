@@ -3,7 +3,7 @@ package model.board;
 import model.etat.State;
 
 public class GomokuBoard extends Board {
-    public GomokuBoard() { super(15); } // Typically 15x15
+    public GomokuBoard() { super(15); }
 
     @Override
     public boolean placeToken(int x, int y, State state) {

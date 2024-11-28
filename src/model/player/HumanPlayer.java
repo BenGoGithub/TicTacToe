@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 
 public class HumanPlayer extends Player {
-    private final Scanner scanner;
+    private Scanner scanner;
 
     public HumanPlayer(String name, State symbol) {
         super(name, symbol);

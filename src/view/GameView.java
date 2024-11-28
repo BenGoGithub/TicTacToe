@@ -24,7 +24,12 @@ public class GameView {
     public void displayInvalidMove() {
         System.out.println("Coup invalide ! Réessayez.");
     }
+
     public void displayGameStart(Player player) {
         System.out.println("Le jeu commence. C'est au tour du premier joueur : " + player.getName() + " (" + player.getSymbol() + ")");
+    }
+
+    public void displayGameOver() {
+        System.out.println("Le jeu est terminé. Commencez une nouvelle partie pour rejouer.");
     }
 }

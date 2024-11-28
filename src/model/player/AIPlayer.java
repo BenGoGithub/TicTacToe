@@ -6,7 +6,7 @@ import model.etat.State;
 import java.util.Random;
 
 public class AIPlayer extends Player {
-    private final Random random;
+    private Random random;
 
     public AIPlayer(String name, State symbol) {
         super(name, symbol);

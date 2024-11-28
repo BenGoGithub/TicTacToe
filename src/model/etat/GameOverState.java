@@ -13,9 +13,9 @@ public class GameOverState implements GameState {
     @Override
     public void makeMove(GameController controller) {
         if (winner != null) {
-            System.out.println(STR."Le jeu est terminé. \{winner.getName()} a gagné !");
+            controller.getView().displayWinner(winner);
         } else {
-            System.out.println("Le jeu est terminé. C'est un match nul !");
+            controller.getView().displayDraw();
         }
     }
 
@@ -26,6 +26,6 @@ public class GameOverState implements GameState {
 
     @Override
     public void nextTurn(GameController controller) {
-        System.out.println("Le jeu est terminé !");
+        controller.getView().displayGameOver();
     }
 }
